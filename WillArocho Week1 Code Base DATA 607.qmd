@@ -1,0 +1,57 @@
+---
+title: "Week1 DATA 607"
+author: "Will Arocho"
+format: html
+editor: visual
+---
+
+## Overview
+
+I will use this Medical Cost Personal Data set: <https://www.kaggle.com/datasets/mirichoi0218/insurance>
+
+I uploaded the csv file for this project onto github: <https://raw.githubusercontent.com/W-G-A/Week1-DATA-607/refs/heads/main/insurance.csv>
+
+I chose this data because I wanted to work with something related to health without it having too many complex health terms that would be hard for me to understand. This data is basic, but has several columns that should seemingly tell a story together and will hopefully make for interesting analysis.
+
+## Analysis
+
+Load Appropriate libraries:
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+Load data set from GitHub:
+
+```{r message=FALSE, warning=FALSE}
+data_url <- "https://raw.githubusercontent.com/W-G-A/Week1-DATA-607/refs/heads/main/insurance.csv" 
+medical_data <- read_csv(data_url)
+```
+
+Rename columns:
+
+```{r}
+clean_medical_data <- medical_data %>%
+  select(age, sex, bmi, smoker, charges) %>%
+  rename(
+    Age = age,
+    BMI = bmi,
+    Medical_Charges = charges,
+    Sex = sex,
+    Smoking_Status = smoker
+  )
+```
+
+Create a plot:
+
+```{r}
+ggplot(data = clean_medical_data, aes(x = Medical_Charges, y = Age, color = Smoking_Status)) + 
+  geom_point()
+labs(
+  title = "Age vs. Medical Charges",
+  subtitle = "Smoking status is the primary driver of high medical costs",
+  x = "Age",
+  y = "Total Charges (USD)",
+  color = "Patient Type"
+)
+```
